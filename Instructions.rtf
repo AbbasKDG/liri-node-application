@@ -1,0 +1,287 @@
+{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil Calibri;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.17134}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang9 LIRI Bot\par
+\par
+\par
+Overview\par
+\par
+In this assignment, you will make LIRI. LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and Recognition Interface, LIRI is a Language Interpretation and Recognition Interface. LIRI will be a command line node app that takes in parameters and gives you back data.\par
+\par
+\par
+Before You Begin\par
+\par
+\par
+LIRI will display your latest tweets. As we do not want to display your personal account, or its keys, please make an alias account and add a few tweets to it!\par
+Make a new GitHub repository called liri-node-app and clone it to your computer.\par
+To retrieve the data that will power this app, you'll need to send requests to the Twitter, Spotify and OMDB APIs. You'll find these Node packages crucial for your assignment.\par
+\par
+\par
+\par
+Twitter\par
+Node-Spotify-API\par
+\par
+Request\par
+\par
+\par
+You'll use Request to grab data from the OMDB API.\par
+\par
+\par
+DotEnv\par
+\par
+\par
+\par
+Submission on BCS\par
+\par
+\par
+Please submit both the deployed Github.io link to your homework AND the link to the Github Repository!\par
+\par
+\par
+\par
+Instructions\par
+\par
+\par
+Navigate to the root of your project and run npm init -y \f1\emdash  this will initialize a package.json file for your project. The package.json file is required for installing third party npm packages and saving their version numbers. If you fail to initialize a package.json file, it will be troublesome, and at times almost impossible for anyone else to run your code after cloning your project.\par
+Make a .gitignore file and add the following lines to it. This will tell git not to track these files, and thus they won't be committed to Github.\par
+\par
+\par
+node_modules\par
+.DS_Store\par
+.env\par
+\par
+Make a JavaScript file named keys.js.\par
+\par
+\par
+\par
+Inside keys.js your file will look like this:\par
+\par
+\par
+console.log('this is loaded');\par
+\par
+exports.twitter = \{\par
+  consumer_key: process.env.TWITTER_CONSUMER_KEY,\par
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,\par
+  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,\par
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET\par
+\};\par
+\par
+exports.spotify = \{\par
+  id: process.env.SPOTIFY_ID,\par
+  secret: process.env.SPOTIFY_SECRET\par
+\};\par
+\par
+Next, create a file named .env, add the following to it, replacing the values with your API keys (no quotes) once you have them:\par
+\par
+\par
+# Spotify API keys\par
+\par
+SPOTIFY_ID=your-spotify-id\par
+SPOTIFY_SECRET=your-spotify-secret\par
+\par
+# Twitter API keys\par
+\par
+TWITTER_CONSUMER_KEY=your-twitter-consumer-key\par
+TWITTER_CONSUMER_SECRET=your-twitter-consumer-secret\par
+TWITTER_ACCESS_TOKEN_KEY=your-access-token-key\par
+TWITTER_ACCESS_TOKEN_SECRET=your-twitter-access-token-secret\par
+\par
+\par
+This file will be used by the dotenv package to set what are known as environment variables to the global process.env object in node. These are values that are meant to be specific to the computer that node is running on, and since we are gitignoring this file, they won't be pushed to github \emdash  keeping our API key information private.\par
+If someone wanted to clone your app from github and run it themselves, they would need to supply their own .env file for it to work.\par
+\par
+\par
+\par
+Get your Twitter API keys by following these steps:\par
+\par
+\par
+\par
+Step One: Visit {{\field{\*\fldinst{HYPERLINK https://apps.twitter.com/app/new }}{\fldrslt{https://apps.twitter.com/app/new\ul0\cf0}}}}\f1\fs22\par
+Step Two: Fill out the form with dummy data. Type {{\field{\*\fldinst{HYPERLINK http://google.com }}{\fldrslt{http://google.com\ul0\cf0}}}}\f1\fs22  in the Website input. Don't fill out the Callback URL input. Then submit the form.\par
+\par
+Step Three: On the next screen, click the Keys and Access Tokens tab to get your consume key and secret. \par
+\par
+\par
+Copy and paste them into your .env file, replacing the your-twitter-consumer-key and your-twitter-consumer-secret placeholders.\par
+\par
+\par
+\par
+Step Four: At the bottom of the page, click the Create my access token button to get your access token key and secret. \par
+\par
+\par
+Copy the access token key and secret displayed at the bottom of the next screen. Paste them into your .env file, replacing the placeholders for your-twitter-access-token-key and your-twitter-access-token-secret.\par
+\par
+\par
+\par
+\par
+\par
+Make a file called random.txt.\par
+\par
+\par
+\par
+\par
+Inside of random.txt put the following in with no extra characters or white space:\par
+\par
+\par
+spotify-this-song,"I Want it That Way"\par
+\par
+\par
+\par
+\par
+\par
+Make a JavaScript file named liri.js.\par
+At the top of the liri.js file, add code to read and set any environment variables with the dotenv package:\par
+\par
+\par
+require("dotenv").config();\par
+\par
+Add the code required to import the keys.js file and store it in a variable.\par
+\par
+\par
+\par
+You should then be able to access your keys information like so\par
+\par
+\par
+  var spotify = new Spotify(keys.spotify);\par
+  var client = new Twitter(keys.twitter);\par
+\par
+Make it so liri.js can take in one of the following commands:\par
+\par
+\par
+* `my-tweets`\par
+\par
+* `spotify-this-song`\par
+\par
+* `movie-this`\par
+\par
+* `do-what-it-says`\par
+\par
+What Each Command Should Do\par
+\par
+\par
+node liri.js my-tweets\par
+\par
+\par
+\par
+This will show your last 20 tweets and when they were created at in your terminal/bash window.\par
+\par
+\par
+\par
+node liri.js spotify-this-song '<song name here>'\par
+\par
+\par
+\par
+\par
+This will show the following information about the song in your terminal/bash window\par
+\par
+\par
+Artist(s)\par
+The song's name\par
+A preview link of the song from Spotify\par
+The album that the song is from\par
+\par
+\par
+If no song is provided then your program will default to "The Sign" by Ace of Base.\par
+You will utilize the node-spotify-api package in order to retrieve song information from the Spotify API.\par
+Like the Twitter API, the Spotify API requires you sign up as a developer to generate the necessary credentials. You can follow these steps in order to generate a client id and client secret:\par
+Step One: Visit {{\field{\*\fldinst{HYPERLINK https://developer.spotify.com/my-applications/#!/ }}{\fldrslt{https://developer.spotify.com/my-applications/#!/\ul0\cf0}}}}\f1\fs22\par
+Step Two: Either login to your existing Spotify account or create a new one (a free account is fine) and log in.\par
+Step Three: Once logged in, navigate to {{\field{\*\fldinst{HYPERLINK https://developer.spotify.com/my-applications/#!/applications/create }}{\fldrslt{https://developer.spotify.com/my-applications/#!/applications/create\ul0\cf0}}}}\f1\fs22  to register a new application to be used with the Spotify API. You can fill in whatever you'd like for these fields. When finished, click the "complete" button.\par
+Step Four: On the next screen, scroll down to where you see your client id and client secret. Copy these values down somewhere, you'll need them to use the Spotify API and the node-spotify-api package.\par
+\par
+\par
+\par
+node liri.js movie-this '<movie name here>'\par
+\par
+\par
+\par
+\par
+This will output the following information to your terminal/bash window:\par
+\par
+   * Title of the movie.\par
+   * Year the movie came out.\par
+   * IMDB Rating of the movie.\par
+   * Rotten Tomatoes Rating of the movie.\par
+   * Country where the movie was produced.\par
+   * Language of the movie.\par
+   * Plot of the movie.\par
+   * Actors in the movie.\par
+\par
+\par
+If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'\par
+\par
+\par
+If you haven't watched "Mr. Nobody," then you should: {{\field{\*\fldinst{HYPERLINK http://www.imdb.com/title/tt0485947/ }}{\fldrslt{http://www.imdb.com/title/tt0485947/\ul0\cf0}}}}\f1\fs22\par
+\par
+It's on Netflix!\par
+\par
+\par
+You'll use the request package to retrieve data from the OMDB API. Like all of the in-class activities, the OMDB API requires an API key. You may use trilogy.\par
+\par
+\par
+\par
+node liri.js do-what-it-says\par
+\par
+\par
+\par
+\par
+Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.\par
+\par
+\par
+It should run spotify-this-song for "I Want it That Way," as follows the text in random.txt.\par
+Feel free to change the text in that document to test out the feature for other commands.\par
+\par
+\par
+\par
+\par
+\par
+BONUS\par
+\par
+\par
+In addition to logging the data to your terminal/bash window, output the data to a .txt file called log.txt.\par
+Make sure you append each command you run to the log.txt file. \par
+Do not overwrite your file each time you run a command.\par
+\par
+\par
+\par
+Reminder: Submission on BCS\par
+\par
+\par
+Please submit both the deployed Github.io link to your homework AND the link to the Github Repository!\par
+\par
+\par
+\par
+\par
+\par
+Minimum Requirements\par
+\par
+Attempt to complete homework assignment as described in instructions. If unable to complete certain portions, please pseudocode these portions to describe what remains to be completed. Adding a README.md as well as adding this homework to your portfolio are required as well and more information can be found below.\par
+\par
+\par
+\par
+\par
+Create a README.md\par
+\par
+Add a README.md to your repository describing the project. Here are some resources for creating your README.md. Here are some resources to help you along the way:\par
+\par
+\par
+About READMEs\par
+Mastering Markdown\par
+\par
+\par
+\par
+\par
+\par
+Add To Your Portfolio\par
+\par
+After completing the homework please add the piece to your portfolio. Make sure to add a link to your updated portfolio in the comments section of your homework so the TAs can easily ensure you completed this step when they are grading the assignment. To receive an 'A' on any assignment, you must link to it from your portfolio.\par
+\par
+\par
+\par
+\par
+One More Thing\par
+\par
+If you have any questions about this project or the material we have covered, please post them in the community channels in slack so that your fellow developers can help you! If you're still having trouble, you can come to office hours for assistance from your instructor and TAs.\par
+\par
+Good Luck!\f0\par
+}
+ 
